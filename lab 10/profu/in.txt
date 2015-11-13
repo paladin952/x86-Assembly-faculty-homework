@@ -1,0 +1,26 @@
+1111 0010 1010 0001
+FEDC BA98 7654 3210
+
+; open the file using function 3dh, int 21h
+	mov ah, 3dh
+	mov al, 0 ; open file for reading  
+	mov dx, offset fileName
+	int 21h	
+	
+	jc openError ; if CF=1 we have an error opening file
+	mov handler, ax ; save the ID (handler) of the opened file in handler
+	
+	
+	
+	openError:
+			; print openErrorMsg on the screen using function 09h of interrupt 21h
+			mov ah, 09h
+			mov dx, offset openErrorMsg
+			int 21h
+			jmp endProg
+
+	readError:
+			 ; print readErrorMsg on the screen using function 09h of interrupt 21h
+			mov ah, 09h
+			mov dx, offset readErrorMsg
+			int 21h
